@@ -1,6 +1,8 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaCensus;
+import com.bridgelabz.census.utility.MessageHelper;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -25,7 +27,7 @@ public class CensusAnalyser {
             Iterable<IndiaCensus> indiaCensusIterable = () -> csvIndiaCensusIterator;
             count = (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false).count();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CensusAnalyserException(MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         }
         return count;
     }
