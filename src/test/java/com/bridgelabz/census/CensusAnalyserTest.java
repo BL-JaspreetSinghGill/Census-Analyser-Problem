@@ -9,6 +9,8 @@ public class CensusAnalyserTest {
 
     private static final String INDIA_STATES_CENSUS_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
 
+    private static final String INDIA_STATES_CODE_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
+
     @Test
     public void givenIndiaStatesCensusFileName_WhenProper_ShouldReturnTotalCount() {
         Assert.assertEquals(29, CensusAnalyser.loadIndiaStatesCensusData(INDIA_STATES_CENSUS_FILE_PATH));
@@ -20,6 +22,20 @@ public class CensusAnalyserTest {
             CensusAnalyser.loadIndiaStatesCensusData("abc.csv");
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE, e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenIndiaStatesCodeFileName_WhenProper_ShouldReturnTotalCount() {
+        Assert.assertEquals(37, CensusAnalyser.loadIndiaStatesCodeData(INDIA_STATES_CODE_FILE_PATH));
+    }
+
+    @Test
+    public void givenIndiaStatesCodeFileName_WhenImproper_ShouldThrowException() {
+        try {
+            CensusAnalyser.loadIndiaStatesCodeData("abc.csv");
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
     }
 }
