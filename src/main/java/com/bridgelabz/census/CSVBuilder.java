@@ -1,5 +1,6 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.exceptions.CSVBuilderException;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -20,12 +21,13 @@ public class CSVBuilder implements ICSVBuilder {
             Iterator<T> csvIterator = getIterator(reader, c);
             count = getCount(csvIterator);
         } catch (IOException e) {
-            throw new CensusAnalyserException(message);
+            throw new CSVBuilderException(message);
         }
         return count;
     }
 
-    private static <T> Iterator<T> getIterator(Reader reader, Class<T> c) {
+    @Override
+    public <T> Iterator<T> getIterator(Reader reader, Class<T> c) {
         CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
                                 .withType(c)
                                 .withIgnoreLeadingWhiteSpace(true)
@@ -33,7 +35,8 @@ public class CSVBuilder implements ICSVBuilder {
         return csvToBean.iterator();
     }
 
-    private static <T> int getCount(Iterator<T> iterator) {
+    @Override
+    public <T> int getCount(Iterator<T> iterator) {
         Iterable<T> indiaCensusIterable = () -> iterator;
         return (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false)
                                   .count();
