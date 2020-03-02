@@ -17,36 +17,37 @@ import java.util.stream.StreamSupport;
 public class CensusAnalyser {
 
     public static int loadIndiaStatesCensusData(String INDIA_STATES_CENSUS_FILE_PATH) {
-        int count = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(INDIA_STATES_CENSUS_FILE_PATH))) {
-            CsvToBean<IndiaStateCensus> csvToBean = new CsvToBeanBuilder<IndiaStateCensus>(reader)
-                                                    .withType(IndiaStateCensus.class)
-                                                    .withIgnoreLeadingWhiteSpace(true)
-                                                    .build();
+        return loadData(INDIA_STATES_CENSUS_FILE_PATH, IndiaStateCensus.class,
+                 MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+    }
 
-            Iterator<IndiaStateCensus> csvIndiaCensusIterator = csvToBean.iterator();
-            Iterable<IndiaStateCensus> indiaCensusIterable = () -> csvIndiaCensusIterator;
-            count = (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false).count();
+    public static int loadIndiaStatesCodeData(String INDIA_STATES_CODE_FILE_PATH) {
+        return loadData(INDIA_STATES_CODE_FILE_PATH, IndiaStateCode.class,
+                MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+    }
+
+    private static <T> int loadData(String FILE_NAME, Class<T> c, String message) {
+        int count = 0;
+        try (Reader reader = Files.newBufferedReader(Paths.get(FILE_NAME))) {
+            Iterator<T> csvIterator = getIterator(reader, c);
+            count = getCount(csvIterator);
         } catch (IOException e) {
-            throw new CensusAnalyserException(MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+            throw new CensusAnalyserException(message);
         }
         return count;
     }
 
-    public static int loadIndiaStatesCodeData(String INDIA_STATES_CODE_FILE_PATH) {
-        int count = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(INDIA_STATES_CODE_FILE_PATH))) {
-            CsvToBean<IndiaStateCode> csvToBean = new CsvToBeanBuilder<IndiaStateCode>(reader)
-                                                  .withType(IndiaStateCode.class)
-                                                  .withIgnoreLeadingWhiteSpace(true)
-                                                  .build();
+    private static <T> Iterator<T> getIterator(Reader reader, Class<T> c) {
+        CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
+                                .withType(c)
+                                .withIgnoreLeadingWhiteSpace(true)
+                                .build();
+        return csvToBean.iterator();
+    }
 
-            Iterator<IndiaStateCode> csvIndiaCensusIterator = csvToBean.iterator();
-            Iterable<IndiaStateCode> indiaCensusIterable = () -> csvIndiaCensusIterator;
-            count = (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false).count();
-        } catch (IOException e) {
-            throw new CensusAnalyserException(MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
-        }
-        return count;
+    private static <T> int getCount(Iterator<T> iterator) {
+        Iterable<T> indiaCensusIterable = () -> iterator;
+        return (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false)
+                                  .count();
     }
 }

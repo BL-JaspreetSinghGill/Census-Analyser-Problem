@@ -50,7 +50,7 @@ public class IndiaStateCensus {
 
     @Override
     public String toString() {
-        return "IndiaCensus{" +
+        return "IndiaStateCensus{" +
                 "state='" + state + '\'' +
                 ", population='" + population + '\'' +
                 ", area='" + area + '\'' +
