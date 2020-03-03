@@ -1,7 +1,6 @@
 package com.bridgelabz.census;
 
 import com.bridgelabz.census.exceptions.CSVBuilderException;
-import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -9,8 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 public class CSVBuilder implements ICSVBuilder {
 
@@ -18,8 +16,8 @@ public class CSVBuilder implements ICSVBuilder {
     public <T> int loadData(String FILE_NAME, Class<T> c, String message) {
         int count = 0;
         try (Reader reader = Files.newBufferedReader(Paths.get(FILE_NAME))) {
-            Iterator<T> csvIterator = getIterator(reader, c);
-            count = getCount(csvIterator);
+            List<T> list = getList(reader, c);
+            count = list.size();
         } catch (IOException e) {
             throw new CSVBuilderException(message);
         }
@@ -27,18 +25,15 @@ public class CSVBuilder implements ICSVBuilder {
     }
 
     @Override
-    public <T> Iterator<T> getIterator(Reader reader, Class<T> c) {
-        CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
-                                .withType(c)
-                                .withIgnoreLeadingWhiteSpace(true)
-                                .build();
-        return csvToBean.iterator();
+    public <T> List<T> getList(Reader reader, Class<T> c) {
+        CsvToBean<T> csvToBean = getCSVBean(reader, c);
+        return csvToBean.parse();
     }
 
-    @Override
-    public <T> int getCount(Iterator<T> iterator) {
-        Iterable<T> indiaCensusIterable = () -> iterator;
-        return (int) StreamSupport.stream(indiaCensusIterable.spliterator(), false)
-                                  .count();
+    private <T> CsvToBean<T> getCSVBean(Reader reader, Class<T> c) {
+        return new CsvToBeanBuilder<T>(reader)
+                .withType(c)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
     }
 }
