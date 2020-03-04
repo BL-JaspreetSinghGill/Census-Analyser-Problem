@@ -5,6 +5,10 @@ import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
 import com.bridgelabz.census.utility.MessageHelper;
+import com.google.gson.Gson;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class CensusAnalyser {
 
@@ -26,5 +30,22 @@ public class CensusAnalyser {
         } catch (CSVBuilderException e) {
             throw new CensusAnalyserException(e.getMessage());
         }
+    }
+
+    public static List<?> loadData(String FILE_PATH, Class c, String message) {
+        return csvBuilder.loadCSVData(FILE_PATH, c, message);
+    }
+
+    public static List<IndiaStateCensus> getIndiaStateCensusSortedList(List<IndiaStateCensus> list) {
+        list.sort(Comparator.comparing(IndiaStateCensus::getState).thenComparing(IndiaStateCensus::getState));
+        return list;
+    }
+
+    public static String getJsonFormatOfList(List<IndiaStateCensus> sortedIndiaStateCensuslist) {
+       return new Gson().toJson(sortedIndiaStateCensuslist);
+    }
+
+    public static IndiaStateCensus[] getArrayOfJson(String sortedIndiaStateCensusData) {
+        return new Gson().fromJson(sortedIndiaStateCensusData, IndiaStateCensus[].class);
     }
 }

@@ -1,9 +1,12 @@
 package com.bridgelabz.census;
 
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
+import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.utility.MessageHelper;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 public class CensusAnalyserTest {
 
@@ -37,5 +40,15 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
+    }
+
+    @Test
+    public void givenIndiaStatesCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
+        List<IndiaStateCensus> indiaStateCensuslist = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
+                                                    IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCensus> sortedIndiaStateCensuslist = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensuslist);
+        String sortedIndiaStateCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCensuslist);
+        IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaStateCensusData);
+        Assert.assertEquals("Andhra Pradesh", indiaStateCensusArray[0].getState());
     }
 }

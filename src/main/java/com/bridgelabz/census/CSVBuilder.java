@@ -30,6 +30,15 @@ public class CSVBuilder implements ICSVBuilder {
         return csvToBean.parse();
     }
 
+    @Override
+    public <T> List<T> loadCSVData(String FILE_NAME, Class<T> c, String message) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(FILE_NAME))) {
+            return getList(reader, c);
+        } catch (IOException e) {
+            throw new CSVBuilderException(message);
+        }
+    }
+
     private <T> CsvToBean<T> getCSVBean(Reader reader, Class<T> c) {
         return new CsvToBeanBuilder<T>(reader)
                 .withType(c)
