@@ -17,7 +17,7 @@ public class CensusAnalyser {
     public static int loadIndiaStatesCensusData(String INDIA_STATES_CENSUS_FILE_PATH) {
         try {
             return csvBuilder.loadData(INDIA_STATES_CENSUS_FILE_PATH, IndiaStateCensus.class,
-                    MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+                                      MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         } catch (CSVBuilderException e) {
             throw new CensusAnalyserException(e.getMessage());
         }
@@ -26,7 +26,7 @@ public class CensusAnalyser {
     public static int loadIndiaStatesCodeData(String INDIA_STATES_CODE_FILE_PATH) {
         try {
             return csvBuilder.loadData(INDIA_STATES_CODE_FILE_PATH, IndiaStateCode.class,
-                    MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+                                       MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
         } catch (CSVBuilderException e) {
             throw new CensusAnalyserException(e.getMessage());
         }
@@ -37,15 +37,26 @@ public class CensusAnalyser {
     }
 
     public static List<IndiaStateCensus> getIndiaStateCensusSortedList(List<IndiaStateCensus> list) {
-        list.sort(Comparator.comparing(IndiaStateCensus::getState).thenComparing(IndiaStateCensus::getState));
+        list.sort(Comparator.comparing(IndiaStateCensus::getState)
+                            .thenComparing(IndiaStateCensus::getState));
         return list;
     }
 
-    public static String getJsonFormatOfList(List<IndiaStateCensus> sortedIndiaStateCensuslist) {
-       return new Gson().toJson(sortedIndiaStateCensuslist);
+    public static List<IndiaStateCode> getIndiaStateCodeSortedList(List<IndiaStateCode> list) {
+        list.sort(Comparator.comparing(IndiaStateCode::getStateCode)
+                            .thenComparing(IndiaStateCode::getStateCode));
+        return list;
+    }
+
+    public static <T> String getJsonFormatOfList(List<T> list) {
+        return new Gson().toJson(list);
     }
 
     public static IndiaStateCensus[] getArrayOfJson(String sortedIndiaStateCensusData) {
         return new Gson().fromJson(sortedIndiaStateCensusData, IndiaStateCensus[].class);
+    }
+
+    public static IndiaStateCode[] getIndiaStateCodeArrayOfJson(String sortedIndiaStateCensusData) {
+        return new Gson().fromJson(sortedIndiaStateCensusData, IndiaStateCode[].class);
     }
 }

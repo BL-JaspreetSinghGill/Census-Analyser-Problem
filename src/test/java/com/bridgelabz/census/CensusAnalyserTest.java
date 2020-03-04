@@ -2,6 +2,7 @@ package com.bridgelabz.census;
 
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
+import com.bridgelabz.census.models.IndiaStateCode;
 import com.bridgelabz.census.utility.MessageHelper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,10 +46,20 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStatesCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
         List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
-                                                    IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+                                                      IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         List<IndiaStateCensus> sortedIndiaStateCensuslist = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensusList);
         String sortedIndiaStateCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCensuslist);
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaStateCensusData);
         Assert.assertEquals("Andhra Pradesh", indiaStateCensusArray[0].getState());
+    }
+
+    @Test
+    public void givenIndiaStatesCodeData_WhenSortedOnStateCode_ShouldReturnSortedResult() {
+        List<IndiaStateCode> indiaStateCodeList = (List<IndiaStateCode>) CensusAnalyser.loadData(INDIA_STATES_CODE_FILE_PATH,
+                                                  IndiaStateCode.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCode> sortedIndiaStateCodelist = CensusAnalyser.getIndiaStateCodeSortedList(indiaStateCodeList);
+        String sortedIndiaStateCodeData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCodelist);
+        IndiaStateCode[] indiaStateCodeArray = CensusAnalyser.getIndiaStateCodeArrayOfJson(sortedIndiaStateCodeData);
+        Assert.assertEquals("AD", indiaStateCodeArray[0].getStateCode());
     }
 }
