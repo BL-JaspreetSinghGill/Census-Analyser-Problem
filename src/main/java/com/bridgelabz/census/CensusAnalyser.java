@@ -44,7 +44,7 @@ public class CensusAnalyser {
 
     public static List<IndiaStateCensus> getIndiaStateCensusSortedListBasedOnPopulation(List<IndiaStateCensus> list) {
         list.sort(Comparator.comparing(IndiaStateCensus::getPopulation)
-                            .thenComparing(IndiaStateCensus::getPopulation));
+                            .reversed());
         return list;
     }
 

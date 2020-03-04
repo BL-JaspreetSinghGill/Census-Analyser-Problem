@@ -70,6 +70,6 @@ public class CensusAnalyserTest {
         List<IndiaStateCensus> sortedIndiaPopulationCensusList = CensusAnalyser.getIndiaStateCensusSortedListBasedOnPopulation(indiaStateCensusList);
         String sortedIndiaPopulationCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaPopulationCensusList);
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaPopulationCensusData);
-        Assert.assertEquals(607688, indiaStateCensusArray[0].getPopulation(), 0);
+        Assert.assertEquals(199812341, indiaStateCensusArray[0].getPopulation(), 0);
     }
 }
