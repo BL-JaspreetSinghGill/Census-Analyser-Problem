@@ -42,6 +42,12 @@ public class CensusAnalyser {
         return list;
     }
 
+    public static List<IndiaStateCensus> getIndiaStateCensusSortedListBasedOnPopulation(List<IndiaStateCensus> list) {
+        list.sort(Comparator.comparing(IndiaStateCensus::getPopulation)
+                            .thenComparing(IndiaStateCensus::getPopulation));
+        return list;
+    }
+
     public static List<IndiaStateCode> getIndiaStateCodeSortedList(List<IndiaStateCode> list) {
         list.sort(Comparator.comparing(IndiaStateCode::getStateCode)
                             .thenComparing(IndiaStateCode::getStateCode));

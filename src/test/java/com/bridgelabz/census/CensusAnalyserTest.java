@@ -47,8 +47,8 @@ public class CensusAnalyserTest {
     public void givenIndiaStatesCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
         List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
                                                       IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
-        List<IndiaStateCensus> sortedIndiaStateCensuslist = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensusList);
-        String sortedIndiaStateCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCensuslist);
+        List<IndiaStateCensus> sortedIndiaStateCensusList = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensusList);
+        String sortedIndiaStateCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCensusList);
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaStateCensusData);
         Assert.assertEquals("Andhra Pradesh", indiaStateCensusArray[0].getState());
     }
@@ -57,9 +57,19 @@ public class CensusAnalyserTest {
     public void givenIndiaStatesCodeData_WhenSortedOnStateCode_ShouldReturnSortedResult() {
         List<IndiaStateCode> indiaStateCodeList = (List<IndiaStateCode>) CensusAnalyser.loadData(INDIA_STATES_CODE_FILE_PATH,
                                                   IndiaStateCode.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
-        List<IndiaStateCode> sortedIndiaStateCodelist = CensusAnalyser.getIndiaStateCodeSortedList(indiaStateCodeList);
-        String sortedIndiaStateCodeData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCodelist);
+        List<IndiaStateCode> sortedIndiaStateCodeList = CensusAnalyser.getIndiaStateCodeSortedList(indiaStateCodeList);
+        String sortedIndiaStateCodeData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCodeList);
         IndiaStateCode[] indiaStateCodeArray = CensusAnalyser.getIndiaStateCodeArrayOfJson(sortedIndiaStateCodeData);
         Assert.assertEquals("AD", indiaStateCodeArray[0].getStateCode());
+    }
+
+    @Test
+    public void givenIndiaStatesCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
+                IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCensus> sortedIndiaPopulationCensusList = CensusAnalyser.getIndiaStateCensusSortedListBasedOnPopulation(indiaStateCensusList);
+        String sortedIndiaPopulationCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaPopulationCensusList);
+        IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaPopulationCensusData);
+        Assert.assertEquals(607688, indiaStateCensusArray[0].getPopulation(), 0);
     }
 }

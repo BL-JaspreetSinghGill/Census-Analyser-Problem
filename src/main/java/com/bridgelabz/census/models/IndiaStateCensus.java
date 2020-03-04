@@ -8,13 +8,13 @@ public class IndiaStateCensus {
     private String state;
 
     @CsvBindByName(column = "Population", required = true)
-    private String population;
+    private Long population;
 
     @CsvBindByName(column = "AreaInSqKm", required = true)
-    private String area;
+    private Long area;
 
     @CsvBindByName(column = "DensityPerSqKm", required = true)
-    private String density;
+    private Long density;
 
     public String getState() {
         return state;
@@ -24,27 +24,27 @@ public class IndiaStateCensus {
         this.state = state;
     }
 
-    public String getPopulation() {
+    public Long getPopulation() {
         return population;
     }
 
-    public void setPopulation(String population) {
+    public void setPopulation(Long population) {
         this.population = population;
     }
 
-    public String getArea() {
+    public Long getArea() {
         return area;
     }
 
-    public void setArea(String area) {
+    public void setArea(Long area) {
         this.area = area;
     }
 
-    public String getDensity() {
+    public Long getDensity() {
         return density;
     }
 
-    public void setDensity(String density) {
+    public void setDensity(Long density) {
         this.density = density;
     }
 
@@ -52,9 +52,9 @@ public class IndiaStateCensus {
     public String toString() {
         return "IndiaStateCensus{" +
                 "state='" + state + '\'' +
-                ", population='" + population + '\'' +
-                ", area='" + area + '\'' +
-                ", density='" + density + '\'' +
+                ", population=" + population +
+                ", area=" + area +
+                ", density=" + density +
                 '}';
     }
 }
