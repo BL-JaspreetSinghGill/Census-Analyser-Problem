@@ -44,9 +44,9 @@ public class CensusAnalyserTest {
 
     @Test
     public void givenIndiaStatesCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
-        List<IndiaStateCensus> indiaStateCensuslist = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
+        List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
                                                     IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
-        List<IndiaStateCensus> sortedIndiaStateCensuslist = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensuslist);
+        List<IndiaStateCensus> sortedIndiaStateCensuslist = CensusAnalyser.getIndiaStateCensusSortedList(indiaStateCensusList);
         String sortedIndiaStateCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaStateCensuslist);
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaStateCensusData);
         Assert.assertEquals("Andhra Pradesh", indiaStateCensusArray[0].getState());
