@@ -72,4 +72,14 @@ public class CensusAnalyserTest {
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaPopulationCensusData);
         Assert.assertEquals(199812341, indiaStateCensusArray[0].getPopulation(), 0);
     }
+
+    @Test
+    public void givenIndiaStatesCensusData_WhenSortedOnDensity_ShouldReturnSortedResult() {
+        List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) CensusAnalyser.loadData(INDIA_STATES_CENSUS_FILE_PATH,
+                IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCensus> sortedIndiaDensityCensusList = CensusAnalyser.getIndiaStateCensusSortedListBasedOnDensity(indiaStateCensusList);
+        String sortedIndiaDensityCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaDensityCensusList);
+        IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaDensityCensusData);
+        Assert.assertEquals(1102, indiaStateCensusArray[0].getDensity(), 0);
+    }
 }

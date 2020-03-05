@@ -48,6 +48,12 @@ public class CensusAnalyser {
         return list;
     }
 
+    public static List<IndiaStateCensus> getIndiaStateCensusSortedListBasedOnDensity(List<IndiaStateCensus> list) {
+        list.sort(Comparator.comparing(IndiaStateCensus::getDensity)
+                            .reversed());
+        return list;
+    }
+
     public static List<IndiaStateCode> getIndiaStateCodeSortedList(List<IndiaStateCode> list) {
         list.sort(Comparator.comparing(IndiaStateCode::getStateCode)
                             .thenComparing(IndiaStateCode::getStateCode));
