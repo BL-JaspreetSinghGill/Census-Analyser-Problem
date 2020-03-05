@@ -13,30 +13,17 @@ import java.util.List;
 public class CSVBuilder implements ICSVBuilder {
 
     @Override
-    public <T> int loadData(String FILE_NAME, Class<T> c, String message) {
-        int count = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(FILE_NAME))) {
-            List<T> list = getList(reader, c);
-            count = list.size();
-        } catch (IOException e) {
-            throw new CSVBuilderException(message);
-        }
-        return count;
-    }
-
-    @Override
-    public <T> List<T> getList(Reader reader, Class<T> c) {
-        CsvToBean<T> csvToBean = getCSVBean(reader, c);
-        return csvToBean.parse();
-    }
-
-    @Override
     public <T> List<T> loadCSVData(String FILE_NAME, Class<T> c, String message) {
         try (Reader reader = Files.newBufferedReader(Paths.get(FILE_NAME))) {
             return getList(reader, c);
         } catch (IOException e) {
             throw new CSVBuilderException(message);
         }
+    }
+
+    private <T> List<T> getList(Reader reader, Class<T> c) {
+        CsvToBean<T> csvToBean = getCSVBean(reader, c);
+        return csvToBean.parse();
     }
 
     private <T> CsvToBean<T> getCSVBean(Reader reader, Class<T> c) {

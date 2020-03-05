@@ -18,26 +18,12 @@ public class CensusAnalyser {
 
     private static ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
 
-    public static int loadIndiaStatesCensusData(String INDIA_STATES_CENSUS_FILE_PATH) {
-        try {
-            return csvBuilder.loadData(INDIA_STATES_CENSUS_FILE_PATH, IndiaStateCensus.class,
-                                      MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
-        } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage());
-        }
-    }
-
-    public static int loadIndiaStatesCodeData(String INDIA_STATES_CODE_FILE_PATH) {
-        try {
-            return csvBuilder.loadData(INDIA_STATES_CODE_FILE_PATH, IndiaStateCode.class,
-                                       MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
-        } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage());
-        }
-    }
-
     public static List<?> loadData(String FILE_PATH, Class c, String message) {
-        return csvBuilder.loadCSVData(FILE_PATH, c, message);
+        try {
+            return csvBuilder.loadCSVData(FILE_PATH, c, message);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(message);
+        }
     }
 
     public static List<IndiaStateCensus> getIndiaStateCensusSortedList(List<IndiaStateCensus> list) {

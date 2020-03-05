@@ -1,5 +1,7 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.dao.IndiaStateCensusDAO;
+import com.bridgelabz.census.dao.IndiaStateCodeDAO;
 import com.bridgelabz.census.dao.USCensusDAO;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
@@ -23,7 +25,7 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStatesCensusFileName_WhenImproper_ShouldThrowException() {
         try {
-            CensusAnalyser.loadIndiaStatesCensusData("abc.csv");
+            CensusAnalyser.loadData("abc.csv", IndiaStateCensusDAO.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
@@ -31,13 +33,14 @@ public class CensusAnalyserTest {
 
     @Test
     public void givenIndiaStatesCodeFileName_WhenProper_ShouldReturnTotalCount() {
-        Assert.assertEquals(37, CensusAnalyser.loadIndiaStatesCodeData(MessageHelper.INDIA_STATES_CODE_FILE_PATH));
+        List<IndiaStateCodeDAO> indiaStateCodeDAOList = (List<IndiaStateCodeDAO>) CensusAnalyser.loadData(MessageHelper.INDIA_STATES_CODE_FILE_PATH, IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        Assert.assertEquals(37, indiaStateCodeDAOList.size());
     }
 
     @Test
     public void givenIndiaStatesCodeFileName_WhenImproper_ShouldThrowException() {
         try {
-            CensusAnalyser.loadIndiaStatesCodeData("abc.csv");
+            CensusAnalyser.loadData("abc.csv", IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
