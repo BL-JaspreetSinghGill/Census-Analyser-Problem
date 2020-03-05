@@ -1,5 +1,6 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.dao.USCensusDAO;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
@@ -94,5 +95,11 @@ public class CensusAnalyserTest {
         String sortedIndiaAreaCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaAreaCensusList);
         IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaAreaCensusData);
         Assert.assertEquals(342239, indiaStateCensusArray[0].getArea(), 0);
+    }
+
+    @Test
+    public void givenUSStatesCodeFileName_WhenProper_ShouldReturnTotalCount() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH, USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        Assert.assertEquals(51, usCensusDAOList.size());
     }
 }
