@@ -1,8 +1,13 @@
 package com.bridgelabz.census.utility;
 
+import com.bridgelabz.census.dao.IndiaStateCensusDAO;
+import com.bridgelabz.census.dao.IndiaStateCodeDAO;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,5 +40,17 @@ public class Utility {
             }
         });
         return indiaStateCensusList;
+    }
+
+    public static List<IndiaStateCensus> convertCensusDAOToCensusObj(List<IndiaStateCensusDAO> indiaStateCensusDAOList) {
+        ModelMapper modelMapper = new ModelMapper();
+        Type listType = new TypeToken<List<IndiaStateCensus>>(){}.getType();
+        return modelMapper.map(indiaStateCensusDAOList, listType);
+    }
+
+    public static List<IndiaStateCode> convertStateDAOToStateObj(List<IndiaStateCodeDAO> indiaStateCodeDAOList) {
+        ModelMapper modelMapper = new ModelMapper();
+        Type listType = new TypeToken<List<IndiaStateCode>>(){}.getType();
+        return modelMapper.map(indiaStateCodeDAOList, listType);
     }
 }

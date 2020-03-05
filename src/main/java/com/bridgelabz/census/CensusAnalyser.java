@@ -1,5 +1,7 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.dao.IndiaStateCensusDAO;
+import com.bridgelabz.census.dao.IndiaStateCodeDAO;
 import com.bridgelabz.census.exceptions.CSVBuilderException;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
@@ -81,10 +83,12 @@ public class CensusAnalyser {
     }
 
     public static Map<String, IndiaStateCensus> getMap(String INDIA_STATE_CENSUS_FILE_PATH, String INDIA_STATE_CODE_FILE_PATH) {
-        List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) csvBuilder.loadCSVData(INDIA_STATE_CENSUS_FILE_PATH,
-                                                      IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
-        List<IndiaStateCode> indiaStateCodeList =  (List<IndiaStateCode>) csvBuilder.loadCSVData(INDIA_STATE_CODE_FILE_PATH,
-                                                   IndiaStateCode.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCensusDAO> indiaStateCensusDAOList = (List<IndiaStateCensusDAO>) csvBuilder.loadCSVData(INDIA_STATE_CENSUS_FILE_PATH,
+                                                            IndiaStateCensusDAO.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCodeDAO> indiaStateCodeDAOList = (List<IndiaStateCodeDAO>) csvBuilder.loadCSVData(INDIA_STATE_CODE_FILE_PATH,
+                                                        IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCensus> indiaStateCensusList = Utility.convertCensusDAOToCensusObj(indiaStateCensusDAOList);
+        List<IndiaStateCode> indiaStateCodeList = Utility.convertStateDAOToStateObj(indiaStateCodeDAOList);
         return Utility.getMap(indiaStateCensusList, indiaStateCodeList);
     }
 

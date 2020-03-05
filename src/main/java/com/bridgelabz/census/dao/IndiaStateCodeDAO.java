@@ -1,9 +1,13 @@
-package com.bridgelabz.census.models;
+package com.bridgelabz.census.dao;
 
-public class IndiaStateCode {
+import com.opencsv.bean.CsvBindByName;
 
+public class IndiaStateCodeDAO {
+
+    @CsvBindByName(column = "State Name", required = true)
     private String stateName;
 
+    @CsvBindByName(column = "StateCode", required = true)
     private String stateCode;
 
     public String getStateName() {
@@ -20,13 +24,5 @@ public class IndiaStateCode {
 
     public void setStateCode(String stateCode) {
         this.stateCode = stateCode;
-    }
-
-    @Override
-    public String toString() {
-        return "IndiaStateCode{" +
-                "stateName='" + stateName + '\'' +
-                ", stateCode='" + stateCode + '\'' +
-                '}';
     }
 }

@@ -1,13 +1,19 @@
-package com.bridgelabz.census.models;
+package com.bridgelabz.census.dao;
 
-public class IndiaStateCensus {
+import com.opencsv.bean.CsvBindByName;
 
+public class IndiaStateCensusDAO {
+
+    @CsvBindByName(column = "State", required = true)
     private String state;
 
+    @CsvBindByName(column = "Population", required = true)
     private Long population;
 
+    @CsvBindByName(column = "AreaInSqKm", required = true)
     private Long area;
 
+    @CsvBindByName(column = "DensityPerSqKm", required = true)
     private Long density;
 
     public String getState() {
@@ -40,15 +46,5 @@ public class IndiaStateCensus {
 
     public void setDensity(Long density) {
         this.density = density;
-    }
-
-    @Override
-    public String toString() {
-        return "IndiaStateCensus{" +
-                "state='" + state + '\'' +
-                ", population=" + population +
-                ", area=" + area +
-                ", density=" + density +
-                '}';
     }
 }

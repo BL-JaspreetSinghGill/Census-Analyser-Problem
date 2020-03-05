@@ -88,7 +88,7 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStatesCensusData_WhenSortedOnArea_ShouldReturnSortedResult() {
         Map<String, IndiaStateCensus> map = CensusAnalyser.getMap(MessageHelper.INDIA_STATES_CENSUS_FILE_PATH,
-                                                                    MessageHelper.INDIA_STATES_CODE_FILE_PATH);
+                                                                  MessageHelper.INDIA_STATES_CODE_FILE_PATH);
         List<IndiaStateCensus> indiaStateCensusList = CensusAnalyser.getListFromMap(map);
         List<IndiaStateCensus> sortedIndiaAreaCensusList = CensusAnalyser.getIndiaStateCensusSortedListBasedOnArea(indiaStateCensusList);
         String sortedIndiaAreaCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaAreaCensusList);

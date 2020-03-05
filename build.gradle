@@ -13,8 +13,14 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     compile group: 'com.opencsv', name: 'opencsv', version: '5.1'
+
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
+
 }
