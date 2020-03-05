@@ -5,10 +5,12 @@ import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
 import com.bridgelabz.census.utility.MessageHelper;
+import com.bridgelabz.census.utility.Utility;
 import com.google.gson.Gson;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class CensusAnalyser {
 
@@ -76,5 +78,17 @@ public class CensusAnalyser {
 
     public static IndiaStateCode[] getIndiaStateCodeArrayOfJson(String sortedIndiaStateCensusData) {
         return new Gson().fromJson(sortedIndiaStateCensusData, IndiaStateCode[].class);
+    }
+
+    public static Map<String, IndiaStateCensus> getMap(String INDIA_STATE_CENSUS_FILE_PATH, String INDIA_STATE_CODE_FILE_PATH) {
+        List<IndiaStateCensus> indiaStateCensusList = (List<IndiaStateCensus>) csvBuilder.loadCSVData(INDIA_STATE_CENSUS_FILE_PATH,
+                                                      IndiaStateCensus.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCode> indiaStateCodeList =  (List<IndiaStateCode>) csvBuilder.loadCSVData(INDIA_STATE_CODE_FILE_PATH,
+                                                   IndiaStateCode.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        return Utility.getMap(indiaStateCensusList, indiaStateCodeList);
+    }
+
+    public static List<IndiaStateCensus> getListFromMap(Map<String, IndiaStateCensus> map) {
+        return Utility.getListFromMap(map);
     }
 }

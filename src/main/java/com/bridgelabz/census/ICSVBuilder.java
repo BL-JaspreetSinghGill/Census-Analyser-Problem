@@ -1,7 +1,11 @@
 package com.bridgelabz.census;
 
+import com.bridgelabz.census.models.IndiaStateCensus;
+import com.bridgelabz.census.models.IndiaStateCode;
+
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 public interface ICSVBuilder {
 
