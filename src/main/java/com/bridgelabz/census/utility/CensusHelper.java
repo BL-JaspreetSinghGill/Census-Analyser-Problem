@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Utility {
+public class CensusHelper {
 
     public static Map<String, IndiaStateCensus> getMap(List<IndiaStateCensus> indiaStateCensusList, List<IndiaStateCode> indiaStateCodeList) {
         Map<String, IndiaStateCensus> map = new HashMap<>();

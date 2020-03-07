@@ -7,7 +7,7 @@ import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
 import com.bridgelabz.census.utility.MessageHelper;
-import com.bridgelabz.census.utility.Utility;
+import com.bridgelabz.census.utility.CensusHelper;
 import com.google.gson.Gson;
 
 import java.util.Comparator;
@@ -73,12 +73,12 @@ public class CensusAnalyser {
                                                             IndiaStateCensusDAO.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         List<IndiaStateCodeDAO> indiaStateCodeDAOList = (List<IndiaStateCodeDAO>) csvBuilder.loadCSVData(INDIA_STATE_CODE_FILE_PATH,
                                                         IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
-        List<IndiaStateCensus> indiaStateCensusList = Utility.convertCensusDAOToCensusObj(indiaStateCensusDAOList);
-        List<IndiaStateCode> indiaStateCodeList = Utility.convertStateDAOToStateObj(indiaStateCodeDAOList);
-        return Utility.getMap(indiaStateCensusList, indiaStateCodeList);
+        List<IndiaStateCensus> indiaStateCensusList = CensusHelper.convertCensusDAOToCensusObj(indiaStateCensusDAOList);
+        List<IndiaStateCode> indiaStateCodeList = CensusHelper.convertStateDAOToStateObj(indiaStateCodeDAOList);
+        return CensusHelper.getMap(indiaStateCensusList, indiaStateCodeList);
     }
 
     public static List<IndiaStateCensus> getListFromMap(Map<String, IndiaStateCensus> map) {
-        return Utility.getListFromMap(map);
+        return CensusHelper.getListFromMap(map);
     }
 }
