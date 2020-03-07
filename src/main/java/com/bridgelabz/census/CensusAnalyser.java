@@ -64,6 +64,12 @@ public class CensusAnalyser {
         return list;
     }
 
+    public static List<USCensus> getUSCensusSortedListBasedOnPopulation(List<USCensus> list) {
+        list.sort(Comparator.comparing(USCensus::getPopulation)
+                            .reversed());
+        return list;
+    }
+
     public static <T> String getJsonFormatOfList(List<T> list) {
         return new Gson().toJson(list);
     }

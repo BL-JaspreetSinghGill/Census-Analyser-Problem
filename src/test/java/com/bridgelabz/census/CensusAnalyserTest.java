@@ -113,9 +113,20 @@ public class CensusAnalyserTest {
         List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
                                             USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
         List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
-        List<USCensus> sortedusCensusList = CensusAnalyser.getUSCensusSortedListBasedOnState(usCensusList);
-        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedusCensusList);
+        List<USCensus> sortedUSCensusList = CensusAnalyser.getUSCensusSortedListBasedOnState(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
         USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
         Assert.assertEquals("Alabama", USCensusArray[0].getState());
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
+        List<USCensus> sortedUSCensusList = CensusAnalyser.getUSCensusSortedListBasedOnPopulation(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
+        USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
+        Assert.assertEquals(37253956, USCensusArray[0].getPopulation(),0);
     }
 }
