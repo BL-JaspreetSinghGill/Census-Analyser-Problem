@@ -6,6 +6,7 @@ import com.bridgelabz.census.dao.USCensusDAO;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
+import com.bridgelabz.census.models.USCensus;
 import com.bridgelabz.census.utility.MessageHelper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -101,8 +102,20 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenUSStatesCodeFileName_WhenProper_ShouldReturnTotalCount() {
-        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH, USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+    public void givenUSStateCensusFileName_WhenProper_ShouldReturnTotalCount() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
         Assert.assertEquals(51, usCensusDAOList.size());
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
+        List<USCensus> sortedusCensusList = CensusAnalyser.getUSCensusSortedListBasedOnState(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedusCensusList);
+        USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
+        Assert.assertEquals("Alabama", USCensusArray[0].getState());
     }
 }

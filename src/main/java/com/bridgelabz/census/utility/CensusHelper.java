@@ -2,8 +2,10 @@ package com.bridgelabz.census.utility;
 
 import com.bridgelabz.census.dao.IndiaStateCensusDAO;
 import com.bridgelabz.census.dao.IndiaStateCodeDAO;
+import com.bridgelabz.census.dao.USCensusDAO;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
+import com.bridgelabz.census.models.USCensus;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 
@@ -52,5 +54,11 @@ public class CensusHelper {
         ModelMapper modelMapper = new ModelMapper();
         Type listType = new TypeToken<List<IndiaStateCode>>(){}.getType();
         return modelMapper.map(indiaStateCodeDAOList, listType);
+    }
+
+    public static List<USCensus> convertUSCensusDAOToUSCensus(List<USCensusDAO> usCensusDAOList) {
+        ModelMapper modelMapper = new ModelMapper();
+        Type listType = new TypeToken<List<USCensus>>(){}.getType();
+        return modelMapper.map(usCensusDAOList, listType);
     }
 }

@@ -2,10 +2,12 @@ package com.bridgelabz.census;
 
 import com.bridgelabz.census.dao.IndiaStateCensusDAO;
 import com.bridgelabz.census.dao.IndiaStateCodeDAO;
+import com.bridgelabz.census.dao.USCensusDAO;
 import com.bridgelabz.census.exceptions.CSVBuilderException;
 import com.bridgelabz.census.exceptions.CensusAnalyserException;
 import com.bridgelabz.census.models.IndiaStateCensus;
 import com.bridgelabz.census.models.IndiaStateCode;
+import com.bridgelabz.census.models.USCensus;
 import com.bridgelabz.census.utility.MessageHelper;
 import com.bridgelabz.census.utility.CensusHelper;
 import com.google.gson.Gson;
@@ -56,6 +58,12 @@ public class CensusAnalyser {
         return list;
     }
 
+    public static List<USCensus> getUSCensusSortedListBasedOnState(List<USCensus> list) {
+        list.sort(Comparator.comparing(USCensus::getState)
+                            .thenComparing(USCensus::getState));
+        return list;
+    }
+
     public static <T> String getJsonFormatOfList(List<T> list) {
         return new Gson().toJson(list);
     }
@@ -67,6 +75,11 @@ public class CensusAnalyser {
     public static IndiaStateCode[] getIndiaStateCodeArrayOfJson(String sortedIndiaStateCensusData) {
         return new Gson().fromJson(sortedIndiaStateCensusData, IndiaStateCode[].class);
     }
+
+    public static USCensus[] getUSCensusArrayOfJson(String sortedUSCensusData) {
+        return new Gson().fromJson(sortedUSCensusData, USCensus[].class);
+    }
+
 
     public static Map<String, IndiaStateCensus> getMap(String INDIA_STATE_CENSUS_FILE_PATH, String INDIA_STATE_CODE_FILE_PATH) {
         List<IndiaStateCensusDAO> indiaStateCensusDAOList = (List<IndiaStateCensusDAO>) csvBuilder.loadCSVData(INDIA_STATE_CENSUS_FILE_PATH,
@@ -80,5 +93,9 @@ public class CensusAnalyser {
 
     public static List<IndiaStateCensus> getListFromMap(Map<String, IndiaStateCensus> map) {
         return CensusHelper.getListFromMap(map);
+    }
+
+    public static List<USCensus> getUSList(List<USCensusDAO> usCensusDAOList) {
+        return CensusHelper.convertUSCensusDAOToUSCensus(usCensusDAOList);
     }
 }
