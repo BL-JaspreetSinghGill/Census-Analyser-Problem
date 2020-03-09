@@ -116,4 +116,26 @@ public class CensusAnalyser {
     public static List<USCensus> getUSList(List<USCensusDAO> usCensusDAOList) {
         return CensusHelper.convertUSCensusDAOToUSCensus(usCensusDAOList);
     }
+
+    public static List<IndiaStateCensus> getIndiaStateCensusData() {
+        Map<String, IndiaStateCensus> map = getMap(MessageHelper.INDIA_STATES_CENSUS_FILE_PATH,
+                                                   MessageHelper.INDIA_STATES_CODE_FILE_PATH);
+        return getListFromMap(map);
+    }
+
+    public static List<USCensus> getUSStateCensusData() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        return getUSList(usCensusDAOList);
+    }
+
+    public static USCensus[] getUSStateCensusArray(List<USCensus> sortedUSCensusList) {
+        String sortedUSCensusData = getJsonFormatOfList(sortedUSCensusList);
+        return getUSCensusArrayOfJson(sortedUSCensusData);
+    }
+
+    public static IndiaStateCensus[] getIndiaStateCensusArray(List<IndiaStateCensus> sortedIndiaCensusList) {
+        String sortedIndiaCensusData = getJsonFormatOfList(sortedIndiaCensusList);
+        return getArrayOfJson(sortedIndiaCensusData);
+    }
 }
