@@ -154,4 +154,26 @@ public class CensusAnalyserTest {
         USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
         Assert.assertEquals(1723338.01, USCensusArray[0].getArea(),0);
     }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnDensity_ShouldReturnPopulousState() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
+        List<USCensus> sortedUSCensusList = CensusAnalyser.getUSCensusSortedListBasedOnDensity(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
+        USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
+        Assert.assertEquals("District of Columbia", USCensusArray[0].getState());
+    }
+
+    @Test
+    public void givenIndiaStateCensusData_WhenSortedOnDensity_ShouldReturnPopulousState() {
+        Map<String, IndiaStateCensus> map = CensusAnalyser.getMap(MessageHelper.INDIA_STATES_CENSUS_FILE_PATH,
+                MessageHelper.INDIA_STATES_CODE_FILE_PATH);
+        List<IndiaStateCensus> indiaStateCensusList = CensusAnalyser.getListFromMap(map);
+        List<IndiaStateCensus> sortedIndiaDensityCensusList = CensusAnalyser.getIndiaStateCensusSortedListBasedOnDensity(indiaStateCensusList);
+        String sortedIndiaDensityCensusData = CensusAnalyser.getJsonFormatOfList(sortedIndiaDensityCensusList);
+        IndiaStateCensus[] indiaStateCensusArray = CensusAnalyser.getArrayOfJson(sortedIndiaDensityCensusData);
+        Assert.assertEquals("Bihar", indiaStateCensusArray[0].getState());
+    }
 }
