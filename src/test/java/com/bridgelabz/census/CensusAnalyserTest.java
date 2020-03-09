@@ -26,7 +26,8 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStatesCensusFileName_WhenImproper_ShouldThrowException() {
         try {
-            CensusAnalyser.loadData("abc.csv", IndiaStateCensusDAO.class, MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
+            CensusAnalyser.loadData("abc.csv", IndiaStateCensusDAO.class,
+                                    MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CENSUS_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
@@ -34,14 +35,16 @@ public class CensusAnalyserTest {
 
     @Test
     public void givenIndiaStatesCodeFileName_WhenProper_ShouldReturnTotalCount() {
-        List<IndiaStateCodeDAO> indiaStateCodeDAOList = (List<IndiaStateCodeDAO>) CensusAnalyser.loadData(MessageHelper.INDIA_STATES_CODE_FILE_PATH, IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+        List<IndiaStateCodeDAO> indiaStateCodeDAOList = (List<IndiaStateCodeDAO>) CensusAnalyser.loadData(MessageHelper.INDIA_STATES_CODE_FILE_PATH,
+                                                        IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
         Assert.assertEquals(37, indiaStateCodeDAOList.size());
     }
 
     @Test
     public void givenIndiaStatesCodeFileName_WhenImproper_ShouldThrowException() {
         try {
-            CensusAnalyser.loadData("abc.csv", IndiaStateCodeDAO.class, MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
+            CensusAnalyser.loadData("abc.csv", IndiaStateCodeDAO.class,
+                                    MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(MessageHelper.INDIAN_STATES_CODE_FILE_NOT_FOUND_MESSAGE, e.getMessage());
         }
@@ -128,5 +131,27 @@ public class CensusAnalyserTest {
         String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
         USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
         Assert.assertEquals(37253956, USCensusArray[0].getPopulation(),0);
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnDensity_ShouldReturnSortedResult() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
+        List<USCensus> sortedUSCensusList = CensusAnalyser.getUSCensusSortedListBasedOnDensity(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
+        USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
+        Assert.assertEquals(3805.61, USCensusArray[0].getDensity(),0);
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnArea_ShouldReturnSortedResult() {
+        List<USCensusDAO> usCensusDAOList = (List<USCensusDAO>) CensusAnalyser.loadData(MessageHelper.US_CENSUS_FILE_PATH,
+                                            USCensusDAO.class, MessageHelper.US_CENSUS_FILE_NOT_FOUND_MESSAGE);
+        List<USCensus> usCensusList = CensusAnalyser.getUSList(usCensusDAOList);
+        List<USCensus> sortedUSCensusList = CensusAnalyser.getUSCensusSortedListBasedOnArea(usCensusList);
+        String sortedUSCensusData = CensusAnalyser.getJsonFormatOfList(sortedUSCensusList);
+        USCensus[] USCensusArray = CensusAnalyser.getUSCensusArrayOfJson(sortedUSCensusData);
+        Assert.assertEquals(1723338.01, USCensusArray[0].getArea(),0);
     }
 }

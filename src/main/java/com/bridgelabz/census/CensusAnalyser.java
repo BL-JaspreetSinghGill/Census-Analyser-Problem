@@ -70,6 +70,18 @@ public class CensusAnalyser {
         return list;
     }
 
+    public static List<USCensus> getUSCensusSortedListBasedOnDensity(List<USCensus> list) {
+        list.sort(Comparator.comparing(USCensus::getDensity)
+                            .reversed());
+        return list;
+    }
+
+    public static List<USCensus> getUSCensusSortedListBasedOnArea(List<USCensus> list) {
+        list.sort(Comparator.comparing(USCensus::getArea)
+                            .reversed());
+        return list;
+    }
+
     public static <T> String getJsonFormatOfList(List<T> list) {
         return new Gson().toJson(list);
     }
